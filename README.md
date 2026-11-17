@@ -32,3 +32,12 @@ NAME      TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE
 web-svc   ClusterIP   10.101.55.244   <none>        80/TCP    12s
 NAME                   READY   STATUS    RESTARTS   AGE
 web-6bd469df5c-x6bfb   1/1     Running   0          97s
+
+Passo 3
+root@controlplane:~$ kubectl -n aula10 run cliente \
+  --image=busybox:1.36 --restart=Never \
+  --command -- sleep 3600
+pod/cliente created
+root@controlplane:~$ kubectl -n aula10 wait --for=condition=Ready \
+  pod/cliente --timeout=90s
+pod/cliente condition met
