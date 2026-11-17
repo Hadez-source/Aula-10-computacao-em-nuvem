@@ -95,3 +95,14 @@ html { color-scheme: light dark; }
 body { width: 35em; margin: 0 auto;
 font-family: Tahoma, Verdana, Arial, sans-serif; }
 
+Passo 7
+root@controlplane:~$ POD=$(kubectl -n aula10 get pods -l app=web \
+  -o jsonpath='{.items[0].metadata.name}')
+root@controlplane:~$ kubectl -n aula10 delete pod "$POD"
+kubectl -n aula10 get pods -l app=web -w
+pod "web-6bd469df5c-7mf6p" deleted from aula10 namespace
+NAME                   READY   STATUS    RESTARTS   AGE
+web-6bd469df5c-nzq2d   1/1     Running   0          4m49s
+web-6bd469df5c-v4rjz   1/1     Running   0          1s
+web-6bd469df5c-x6bfb   1/1     Running   0          11m
+
