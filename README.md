@@ -56,3 +56,19 @@ font-family: Tahoma, Verdana, Arial, sans-serif; }
 root@controlplane:~$ kubectl -n aula10 get deployment web
 NAME   READY   UP-TO-DATE   AVAILABLE   AGE
 web    1/1     1            1           4m2s
+
+Passo 5
+root@controlplane:~$ kubectl -n aula10 get deployment web
+NAME   READY   UP-TO-DATE   AVAILABLE   AGE
+web    1/1     1            1           4m2s
+root@controlplane:~$ kubectl -n aula10 scale deployment/web --replicas=3
+deployment.apps/web scaled
+root@controlplane:~$ kubectl -n aula10 rollout status deployment/web
+deployment "web" successfully rolled out
+root@controlplane:~$ kubectl -n aula10 get pods -l app=web -o wide
+NAME                   READY   STATUS    RESTARTS   AGE     IP              NODE           NOMINATED NODE   READINESS GATES
+web-6bd469df5c-7mf6p   1/1     Running   0          2m13s   192.168.1.95    node01         <none>           <none>
+web-6bd469df5c-nzq2d   1/1     Running   0          2m13s   192.168.0.173   controlplane   <none>           <none>
+web-6bd469df5c-x6bfb   1/1     Running   0          8m33s   192.168.1.163   node01         <none>           <none>
+
+
