@@ -71,4 +71,27 @@ web-6bd469df5c-7mf6p   1/1     Running   0          2m13s   192.168.1.95    node
 web-6bd469df5c-nzq2d   1/1     Running   0          2m13s   192.168.0.173   controlplane   <none>           <none>
 web-6bd469df5c-x6bfb   1/1     Running   0          8m33s   192.168.1.163   node01         <none>           <none>
 
+Passo 6
+root@controlplane:~$ kubectl -n aula10 get pods -l app=web -o wide
+NAME                   READY   STATUS    RESTARTS   AGE     IP              NODE           NOMINATED NODE   READINESS GATES
+web-6bd469df5c-7mf6p   1/1     Running   0          2m13s   192.168.1.95    node01         <none>           <none>
+web-6bd469df5c-nzq2d   1/1     Running   0          2m13s   192.168.0.173   controlplane   <none>           <none>
+web-6bd469df5c-x6bfb   1/1     Running   0          8m33s   192.168.1.163   node01         <none>           <none>
+root@controlplane:~$ kubectl -n aula10 get service web-svc
+NAME      TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE
+web-svc   ClusterIP   10.101.55.244   <none>        80/TCP    7m59s
+root@controlplane:~$ kubectl -n aula10 get endpoints web-svc
+Warning: v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice
+NAME      ENDPOINTS                                           AGE
+web-svc   192.168.0.173:80,192.168.1.163:80,192.168.1.95:80   8m11s
+root@controlplane:~$ kubectl -n aula10 exec cliente -- \
+> wget -qO- http://web-svc | head -n 8
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+<style>
+html { color-scheme: light dark; }
+body { width: 35em; margin: 0 auto;
+font-family: Tahoma, Verdana, Arial, sans-serif; }
 
