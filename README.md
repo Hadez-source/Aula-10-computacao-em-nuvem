@@ -20,4 +20,15 @@ deployment.apps/web   1/1     1            1           39s
 
 NAME                       READY   STATUS    RESTARTS   AGE
 pod/web-6bd469df5c-x6bfb   1/1     Running   0          39s
-root@controlplane:~$ 
+
+
+Passo 2
+root@controlplane:~$ kubectl -n aula10 expose deployment web \
+  --name=web-svc --port=80 --target-port=80
+service/web-svc exposed
+root@controlplane:~$ kubectl -n aula10 get service web-svc
+kubectl -n aula10 get pods -l app=web
+NAME      TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE
+web-svc   ClusterIP   10.101.55.244   <none>        80/TCP    12s
+NAME                   READY   STATUS    RESTARTS   AGE
+web-6bd469df5c-x6bfb   1/1     Running   0          97s
