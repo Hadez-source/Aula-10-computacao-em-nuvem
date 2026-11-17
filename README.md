@@ -124,3 +124,12 @@ Warning: v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointS
 NAME      ENDPOINTS                           AGE
 web-svc   192.168.0.173:80,192.168.1.163:80   11m
 
+Passo 9
+Antes   Desejado: 1 réplica.   Pods prontos: 1 pod em execuçao   
+Service responde? Sim, o teste de acesso via wget pelo pod cliente retornou a página padrão do Nginx com sucesso
+
+Pico   Desejado: 3 réplicas.   Pods prontos: 3 pods rodando simultaneamente   
+Endereços: 3 endereços IP distintos registrados nos endpoints do serviço 192.168.0.173:80, 192.168.1.163:80 e 192.168.1.95:80   
+
+Após falha   Pod apagado: Sim, o pod web-6bd469df5c-7mf6p foi deletado manualmente para simular uma falha.   Reposição: Ocorreu de forma imediata e automática pelo ReplicaSet, que subiu o novo pod  para manter as 3 réplicas desejadas 
+Service responde? Sim, mesmo após a remoção de um pod e o reajuste de escala, os endpoints foram atualizados para os 2 IPs restantes (192.168.0.173:80 e 192.168.1.163:80) e o serviço seguiu respondendo sem interrupções.
