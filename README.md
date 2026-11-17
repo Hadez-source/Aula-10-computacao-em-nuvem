@@ -106,3 +106,21 @@ web-6bd469df5c-nzq2d   1/1     Running   0          4m49s
 web-6bd469df5c-v4rjz   1/1     Running   0          1s
 web-6bd469df5c-x6bfb   1/1     Running   0          11m
 
+Passo 8
+root@controlplane:~$ kubectl -n aula10 scale deployment/web --replicas=2=2
+deployment.apps/web scaled
+root@controlplane:~$ kubectl -n aula10 rollout status deployment/web
+deployment "web" successfully rolled out
+root@controlplane:~$ kubectl -n aula10 get deployment,pods
+NAME                  READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/web   2/2     2            2           12m
+
+NAME                       READY   STATUS    RESTARTS   AGE
+pod/cliente                1/1     Running   0          10m
+pod/web-6bd469df5c-nzq2d   1/1     Running   0          6m37s
+pod/web-6bd469df5c-x6bfb   1/1     Running   0          12m
+root@controlplane:~$ kubectl -n aula10 get endpoints web-svc
+Warning: v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice
+NAME      ENDPOINTS                           AGE
+web-svc   192.168.0.173:80,192.168.1.163:80   11m
+
