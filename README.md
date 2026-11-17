@@ -41,3 +41,18 @@ pod/cliente created
 root@controlplane:~$ kubectl -n aula10 wait --for=condition=Ready \
   pod/cliente --timeout=90s
 pod/cliente condition met
+
+Passo 4
+root@controlplane:~$ kubectl -n aula10 exec cliente -- \
+  wget -qO- http://web-svc | head -n 8
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+<style>
+html { color-scheme: light dark; }
+body { width: 35em; margin: 0 auto;
+font-family: Tahoma, Verdana, Arial, sans-serif; }
+root@controlplane:~$ kubectl -n aula10 get deployment web
+NAME   READY   UP-TO-DATE   AVAILABLE   AGE
+web    1/1     1            1           4m2s
