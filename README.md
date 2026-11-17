@@ -124,7 +124,7 @@ Warning: v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointS
 NAME      ENDPOINTS                           AGE
 web-svc   192.168.0.173:80,192.168.1.163:80   11m
 
-Passo 9
+Passo 9 perguntas
 Antes   Desejado: 1 réplica.   Pods prontos: 1 pod em execuçao   
 Service responde? Sim, o teste de acesso via wget pelo pod cliente retornou a página padrão do Nginx com sucesso
 
@@ -133,3 +133,14 @@ Endereços: 3 endereços IP distintos registrados nos endpoints do serviço 192.
 
 Após falha   Pod apagado: Sim, o pod web-6bd469df5c-7mf6p foi deletado manualmente para simular uma falha.   Reposição: Ocorreu de forma imediata e automática pelo ReplicaSet, que subiu o novo pod  para manter as 3 réplicas desejadas 
 Service responde? Sim, mesmo após a remoção de um pod e o reajuste de escala, os endpoints foram atualizados para os 2 IPs restantes (192.168.0.173:80 e 192.168.1.163:80) e o serviço seguiu respondendo sem interrupções.
+
+analise em dupla
+- Quem repôs o Pod apagado? Foi o ReplicaSet (controlador do Deployment). Ele percebeu que o número de pods tinha caído e criou um novo na hora para manter o total certo.  
+
+- Por que o cliente continuou usando o nome web-svc?Porque o Service funciona como um endereço fixo. Como os IPs dos pods mudam toda vez que são recriados ou escalados, o cliente só precisa chamar o web-svc e o Kubernetes encaminha o acesso para um pod ativo.
+
+- Três réplicas garantem capacidade infinita? Explique. Não. Três réplicas ajudam a dividir o tráfego e dão segurança se um pod cair, mas o hardware dos servidores tem limite. Se houver um acesso gigante, a CPU e a memória vão estourar do mesmo jeito.
+
+-   Que informação seria necessária para automatizar a escala? Precisaríamos monitorar o consumo real de CPU e memória dos pods (usando o Metrics Server) e definir as regras de limite (gatilhos) para o sistema saber quando criar ou remover pods sozinho.
+
+  
